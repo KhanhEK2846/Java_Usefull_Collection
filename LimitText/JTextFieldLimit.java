@@ -17,4 +17,27 @@ public class JTextFieldLimit extends JTextField {
             }
         });
     }
+    JTextFieldLimit(int limit, String regex) {
+        ((AbstractDocument)getDocument()).setDocumentFilter(new DocumentFilter(){
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+                int futureLength = currentText.length() - length + text.length();
+                if (futureLength <= limit && text.matches(regex)) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+
+    JTextFieldLimit(String regex) {
+        ((AbstractDocument)getDocument()).setDocumentFilter(new DocumentFilter(){
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (text.matches(regex)) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
 }
