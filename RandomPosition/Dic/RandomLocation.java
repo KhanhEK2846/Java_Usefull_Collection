@@ -56,10 +56,9 @@ public class RandomLocation {
     private static int[] generateLocation(){
         int[] locate = new int[2];
 
-        Random generator = new Random();
-        int rng = generator.nextInt((int)sizeScreen.getWidth());
-        locate[0] = Math.abs(rng);
-        locate[1] = Math.abs(rng);
+        Random generator = new Random();;
+        locate[0] = Math.abs(generator.nextInt((int)sizeScreen.getWidth()));
+        locate[1] = Math.abs(generator.nextInt((int)sizeScreen.getHeight()));
         return locate;
     }
 
