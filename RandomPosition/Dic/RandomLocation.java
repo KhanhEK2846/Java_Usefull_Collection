@@ -7,7 +7,8 @@ import java.util.Random;
 public class RandomLocation {
     private static int[][] position = new int[1][];
     private final static Dimension sizeScreen = Toolkit.getDefaultToolkit().getScreenSize();
-    private static int offset = 10;;
+    private static int offset = 5;
+    private static Dimension LocalSizeFrame = new Dimension(0, 0);
 
     public void setOffset(int offset) {
         RandomLocation.offset = offset;
@@ -22,13 +23,13 @@ public class RandomLocation {
         return position;
     }
 
-    public int[] getFirstPosition(Dimension sizeFrame) {
-        ConvertOutOfBound(sizeFrame);
-        return position[0];
+    public int[] getIndexPosition(int index, Dimension sizeFrame) throws Exception {
+        ConvertOutOfBound(index,sizeFrame);
+        return position[index];
     }
 
-    public int[] getFirstPosition() {
-        return position[0];
+    public int[] getIndexPosition(int index) {
+        return position[index];
     }
 
     RandomLocation(){
@@ -64,6 +65,8 @@ public class RandomLocation {
 
     private static void ConvertOutOfBound(Dimension sizeFrame)
     {
+        if(LocalSizeFrame.equals(sizeFrame))
+            return;
         for(int index = 0; index<position.length; index++)
         {
             /* Horizontal */
@@ -85,9 +88,35 @@ public class RandomLocation {
             {
                 position[index][1] = offset;
             }
+            LocalSizeFrame.setSize(sizeFrame);
+        }
+    }
+
+    private static void ConvertOutOfBound(int index, Dimension sizeFrame) throws Exception
+    {
+        if(index >= position.length)
+            throw new Exception("Index out of bounds");
+
+        /* Horizontal */
+        if(position[index][0] + sizeFrame.getWidth() > sizeScreen.getWidth() - offset)
+        {
+            position[index][0] = (int)sizeScreen.getWidth() - (int)sizeFrame.getWidth() - offset;
+        }
+        if(position[index][0] < offset)
+        {
+            position[index][0] = offset;
+        }
+
+        /* Vertical */
+        if(position[index][1] + sizeFrame.getHeight() > sizeScreen.getHeight() - offset)
+        {
+            position[index][1] = (int)sizeScreen.getHeight() - (int)sizeFrame.getHeight() - offset;
+        }
+        if(position[index][1] < offset)
+        {
+            position[index][1] = offset;
         }
 
     }
-
 
 }

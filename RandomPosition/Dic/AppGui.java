@@ -17,7 +17,8 @@ public class AppGui{
                 frames[i].setSize(frameSize);
                 frames[i].setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frames[i].setLocationRelativeTo(null);
-                frames[i].setLocation(randomLocation.getAllPosition(frameSize)[i][0], randomLocation.getAllPosition(frameSize)[i][1]);
+                int[] position = randomLocation.getIndexPosition(i,frameSize);
+                frames[i].setLocation(position[0], position[1]);
                 frames[i].setVisible(true);
             }
         } catch (Exception e) {
